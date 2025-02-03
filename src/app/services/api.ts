@@ -36,13 +36,15 @@ function handleConnectionError(error: unknown) {
 }
 
 async function handleApiExceptions(response: Response) {
-  let errorMessage = `Erro ${response.status}: ${response.statusText}`;
   try {
     const errorBody = await response.json();
-    errorMessage += ` - ${JSON.stringify(errorBody)}`;
+
+    if (errorBody?.message) {
+      throw new Error(`Erro ${response.status}: ${errorBody.message}`);
+    }
   } catch {
     console.warn("Erro ao converter resposta de erro para JSON.");
   }
 
-  throw new Error(errorMessage);
+  throw new Error(`Erro ${response.status}: ${response.statusText}`);
 }

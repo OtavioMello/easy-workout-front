@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Form from "next/form";
 import { useState } from "react";
 import auth from "../services/authService";
 
@@ -38,7 +37,7 @@ export default function Page() {
 
   return (
     <Container style={{ paddingTop: "100px" }}>
-      <Form action={onAuth}>
+      <form action={onAuth}>
         <Grid2 container direction={"column"} spacing={2} alignItems={"center"}>
           <Snackbar
             open={error}
@@ -62,7 +61,9 @@ export default function Page() {
               label="email"
               color="warning"
               type="email"
+              value={email}
               required={true}
+              autoComplete="email"
               fullWidth
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -74,7 +75,9 @@ export default function Page() {
               label="senha"
               color="warning"
               type="password"
+              value={password}
               required={true}
+              autoComplete="current-password"
               fullWidth
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -98,7 +101,7 @@ export default function Page() {
             </Link>
           </Grid2>
         </Grid2>
-      </Form>
+      </form>
     </Container>
   );
 }

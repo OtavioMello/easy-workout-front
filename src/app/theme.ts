@@ -15,6 +15,15 @@ const theme = createTheme({
   palette: {
     mode: "dark",
   },
+  components: {
+    MuiMobileStepper: {
+      styleOverrides: {
+        dotActive: {
+          backgroundColor: "#ffa726",
+        },
+      },
+    },
+  },
 });
 
 export default theme;

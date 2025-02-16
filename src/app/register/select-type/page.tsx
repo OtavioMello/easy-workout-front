@@ -1,6 +1,11 @@
+"use client";
+
 import { Button, Container, Grid2, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
   return (
     <Container style={{ paddingTop: "100px" }}>
       <Grid2 container direction={"column"} spacing={2} alignItems={"center"}>
@@ -16,6 +21,7 @@ export default function Page() {
             variant="contained"
             style={{ color: "#fff" }}
             fullWidth
+            onClick={() => router.push("/register/trainee")}
           >
             sou aluno(a)
           </Button>
@@ -27,6 +33,7 @@ export default function Page() {
             variant="contained"
             style={{ color: "#fff" }}
             fullWidth
+            onClick={() => router.push("/register/personal-trainer")}
           >
             sou instrutor(a)
           </Button>

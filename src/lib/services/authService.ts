@@ -5,11 +5,15 @@ type AuthRequest = {
   password: string;
 };
 
-type TokenDto = {
+type AuthResponseDto = {
   token: string;
+  user_id: string;
+  role: "TRAINEE" | "PERSONAL_TRAINER";
 };
 
-export default async function auth(request: AuthRequest): Promise<TokenDto> {
+export default async function auth(
+  request: AuthRequest
+): Promise<AuthResponseDto> {
   return fetcher("/auth", {
     method: "POST",
     body: JSON.stringify(request),

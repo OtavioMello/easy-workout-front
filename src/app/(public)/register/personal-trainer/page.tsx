@@ -1,10 +1,10 @@
 "use client";
 
-import { create } from "@/app/services/personalTrainerService";
+import { create } from "@/lib/services/personalTrainerService";
 import {
   validateEmail,
   validateNickname,
-} from "@/app/services/registerService";
+} from "@/lib/services/registerValidationService";
 import { PersonalTrainerFormState } from "@/types/form.types";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {

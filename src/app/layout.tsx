@@ -1,5 +1,5 @@
+import ClientProviders from "@/context/ClientProviders";
 import type { Metadata } from "next";
-import ClientProviders from "./clientProviders";
 
 export const metadata: Metadata = {
   title: "Easy Workout",

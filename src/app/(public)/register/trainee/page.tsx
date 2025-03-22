@@ -3,8 +3,8 @@
 import {
   validateEmail,
   validateNickname,
-} from "@/app/services/registerService";
-import { create } from "@/app/services/traineeService";
+} from "@/lib/services/registerValidationService";
+import { create } from "@/lib/services/traineeService";
 import { TraineeFormState } from "@/types/form.types";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {

@@ -11,9 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import auth from "../services/authService";
+import auth from "@/lib/services/authService";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const { login } = useAuth();
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -22,7 +27,14 @@ export default function Page() {
 
   async function onAuth() {
     try {
-      await auth({ email, password });
+      const { token, user_id, role } = await auth({ email, password });
+      login(token, user_id, role);
+
+      if (role === "TRAINEE") {
+        router.push("/dashboard/trainee");
+      } else if (role === "PERSONAL_TRAINER") {
+        router.push("/dashboard/personal-trainer");
+      }
     } catch (ex) {
       setError(!error);
     }

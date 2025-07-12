@@ -3,8 +3,8 @@
 import {
   validateEmail,
   validateNickname,
-} from "@/lib/services/registerValidationService";
-import { create } from "@/lib/services/traineeService";
+} from "@/api/services/registerValidationService";
+import { create } from "@/api/services/traineeService";
 import { TraineeFormState } from "@/types/form.types";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -133,6 +133,7 @@ export default function Page() {
         }));
       }
     } catch (error) {
+      console.error(error);
       setForm((prev) => ({
         ...prev,
         emailError: "Erro ao validar email",
@@ -164,6 +165,7 @@ export default function Page() {
         }));
       }
     } catch (error) {
+      console.error(error);
       setForm((prev) => ({
         ...prev,
         nicknameError: "Erro ao validar nome de usuário",

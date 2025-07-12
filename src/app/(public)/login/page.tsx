@@ -10,14 +10,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import auth from "@/lib/services/authService";
+import { FormEvent, useEffect, useState } from "react";
+import auth from "@/api/services/authService";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const { login } = useAuth();
   const router = useRouter();
+  const { login, token, role } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,18 +25,22 @@ export default function Page() {
 
   const snackbarMessage = "Erro ao realizar login! Email ou senha inválidos";
 
-  async function onAuth() {
+  useEffect(() => {
+    if (token) {
+      const dashboardPath =
+        role === "TRAINEE" ? "/dashboard/trainee" : "/dashboard/personal";
+      router.push(dashboardPath);
+    }
+  }, [login, token, role, router]);
+
+  async function onAuth(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     try {
       const { token, user_id, role } = await auth({ email, password });
       login(token, user_id, role);
-
-      if (role === "TRAINEE") {
-        router.push("/dashboard/trainee");
-      } else if (role === "PERSONAL_TRAINER") {
-        router.push("/dashboard/personal-trainer");
-      }
     } catch (ex) {
       setError(!error);
+      console.error(ex);
     }
 
     setEmail("");
@@ -49,7 +53,7 @@ export default function Page() {
 
   return (
     <Container style={{ paddingTop: "100px" }}>
-      <form action={onAuth}>
+      <form onSubmit={onAuth}>
         <Grid2 container direction={"column"} spacing={2} alignItems={"center"}>
           <Snackbar
             open={error}

@@ -1,4 +1,5 @@
 import ClientProviders from "@/context/ClientProviders";
+import { NavigationProvider } from "@/context/NavigationContext";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+          <NavigationProvider>{children}</NavigationProvider>
+        </ClientProviders>
       </body>
     </html>
   );

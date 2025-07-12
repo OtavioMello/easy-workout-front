@@ -45,13 +45,22 @@ export function AuthProvider({
     newUserId: string,
     newRole: "TRAINEE" | "PERSONAL_TRAINER"
   ) {
-    Cookies.set("token", newToken, { expires: 1 });
-    Cookies.set("user_id", newUserId, { expires: 1 });
-    Cookies.set("role", newRole, { expires: 1 });
+    let date = new Date();
+    date.setTime(date.getTime() + 60 * 1000 * 30);
+
+    Cookies.set("token", newToken, { expires: date });
+    Cookies.set("user_id", newUserId, { expires: date });
+    Cookies.set("role", newRole, { expires: date });
 
     setToken(newToken);
     setUserId(newUserId);
     setRole(newRole);
+
+    router.push(
+      newRole === "TRAINEE"
+        ? "/dashboard/trainee"
+        : "/dashboard/personal-trainer"
+    );
   }
 
   function logout() {
@@ -77,6 +86,6 @@ export function AuthProvider({
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used inside an AuthProvider");
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 }

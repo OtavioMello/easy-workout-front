@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
+import { UserProvider } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -20,5 +21,5 @@ export default function PrivateLayout({
 
   if (!token) return null;
 
-  return <>{children}</>;
+  return <UserProvider>{children}</UserProvider>;
 }

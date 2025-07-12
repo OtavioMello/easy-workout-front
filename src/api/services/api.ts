@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 const API_URL =
   process.env.EASY_WORKOUT_API_URL ?? "http://localhost:8080/easy-workout/v1";
 
@@ -7,11 +9,17 @@ export default async function fetcher<T>(
 ): Promise<T> {
   console.info(`Calling API: ${API_URL}${path}`);
 
+  const token = Cookies.get("token");
+  const authHeaders: Record<string, string> = token
+    ? { Authorization: `Bearer ${token}` }
+    : {};
+
   try {
     const response = await fetch(`${API_URL}${path}`, {
       headers: {
         "Content-Type": "application/json",
-        ...options?.headers,
+        ...authHeaders,
+        ...(options?.headers as Record<string, string>),
       },
       ...options,
     });
@@ -20,7 +28,17 @@ export default async function fetcher<T>(
       await handleApiExceptions(response);
     }
 
-    let data = await response.json();
+    const contentLength = response.headers.get("content-length");
+    const isJsonResponse = response.headers
+      .get("content-type")
+      ?.includes("application/json");
+
+    let data: T = null as unknown as T;
+
+    if (contentLength !== "0" && isJsonResponse) {
+      data = await response.json();
+    }
+
     return data;
   } catch (error) {
     handleConnectionError(error);
